@@ -2,7 +2,7 @@
 // initialize all possible characters as objects, with a value for hit points, base attack, and counter attack.
 
 // function to create player objects
-function Player(name, hp, atk, catk, el) {
+function Player(name, hp, atk, catk, el, side) {
 	this.hitPoints = hp;
 	this.attack = atk;
 	this.counterAttack = catk;
@@ -11,24 +11,67 @@ function Player(name, hp, atk, catk, el) {
 }
 
 // rebel characters
-var obiWan = new Player(100, 8, 20, "#obiWan");
-var luke = new Player(120, 10, 25, "#obiWan");
-var hanSolo = new Player(80, 14, 30, "#obiWan");
-var yoda = new Player(160, 6, 15, "#obiWan");
+var obiWan = new Player(100, 8, 20, "#obiWan", "rebel");
+var luke = new Player(120, 10, 25, "#luke" ,"rebel");
+var hanSolo = new Player(80, 14, 30, "#hanSolo", "rebel");
+var yoda = new Player(160, 6, 15, "#yoda", "rebel");
 
 // empire characters
-var vader = new Player(100, 8, 20, );
-var sidious = new Player(120, 10, 25, );
-var bobaFett = new Player(80, 14, 30, );
-var rancor = new Player(160, 6, 15, );
+var vader = new Player(100, 8, 20, "#vader", "empire");
+var sidious = new Player(120, 10, 25, "#sidious", "empire");
+var bobaFett = new Player(80, 14, 30, "#bobaFett", "empire");
+var rancor = new Player(160, 6, 15, "#rancor", "empire");
 
 // hold current game state
 var curr = {};
 
 
 // display initial prompt to choose a side
-	// depending on button clicked, set current side to rebel/empire
+function sidePrompt() {
 
+	// change display to show two options, rebels or empire
+	function displaySideChoice() {
+		var headerRow = $("<div>")
+		var headerCol = $("<div>");
+		var textHeader = $("<h1>");
+		var text = "Choose your side";
+		
+		$(headerRow).addClass("row")
+		$(headerCol).addClass("col-12-xs");
+
+		$(textHeader).text("Choose your side");
+		$(headerCol).append(textHeader);
+		$(headerRow).append(headerCol)
+		$("#content").append(headerRow);
+		
+
+		var btnRow = $("<div>")
+		var choices = ["rebels", "empire"];
+
+		$(btnRow).addClass("row")
+
+		choices.forEach( function(element) {
+			var sideCol = $("<div>");
+			var sideChoice = $("<div>");
+
+			$(sideCol).addClass("col-6-xs");
+
+			$(sideChoice).addClass(`sideBtn ${element}Btn`);
+			$(sideCol).append(sideChoice);
+			$(btnRow).append(sideCol);
+			
+		});
+
+		$("#content").append(btnRow);
+
+	}
+
+	displaySideChoice();
+
+	// depending on button clicked, set current side to rebel/empire
+}
+
+sidePrompt();
 
 // once player chooses side, prompt them to choose a character (choices depend on side selected)
 
