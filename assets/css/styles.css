@@ -6,17 +6,18 @@ body {
 	background-position: center center;
 }
 
-/* SIDE PROMPT*/
-#sidePrompt {
-	margin-top: 5%;
-	padding: 20px;
-}
 
-#sideHdr {
+#sideHdr, #characterHdr {
 	text-align: center;
 	margin-bottom: 40px;
 	color: white;
 	font-size: 4em;
+}
+
+/* SIDE PROMPT*/
+#sidePrompt {
+	margin-top: 5%;
+	padding: 20px;
 }
 
 .sideBtn {
@@ -40,26 +41,19 @@ body {
 	padding: 20px;
 }
 
-#characterHdr {
-	text-align: center;
-	margin-bottom: 40px;
-	color: white;
-	font-size: 4em;
-}
-
-.possPlayer {
+.rebel, .empire {
 	margin: auto;
 	padding: 5px;
     text-align: center;
     width: 160px;
 }
 
-.possPlayer.rebel {
+.rebel {
 	background-color: #592929;
 	color: white;
 }
 
-.possPlayer.empire {
+.empire {
 	background-color: black;
 	color: white;
 }
@@ -73,3 +67,10 @@ body {
 	height: 150px;
 }
 
+
+/* MAIN GAME AREA */
+.gameHeader {
+	text-align: center;
+	color: white;
+	font-size: 3em;
+}

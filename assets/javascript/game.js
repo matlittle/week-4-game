@@ -152,23 +152,61 @@ function charSelected(charObj) {
 
 	// after character is selected, move character to "attacker" area
 	function moveAttacker(character) {
-		
+		// build attacker header
+		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "attackerHeader");
+		var headerText = $("<h2>").text("Your character");
+		$(headerDiv).append(headerText);
+
+		// build main attacker div
 		var attackerDiv = $("<div>").addClass("col-xs-12").attr("id", "attackerDiv");
-
-		$(character).removeClass("possCharacter");
+		$(character).removeClass("possPlayer");
 		$(character).addClass("currAttacker");
-
 		$(attackerDiv).append(character);
+
+		// append header and attacker divs to game area
+		$(gameArea).append(headerDiv);
 		$(gameArea).append(attackerDiv);
 	}
-
-	moveAttacker(charObj);
 
 
 	// and move enemies into enemy staging area
 	function showDefenders() {
+		// build defender header
+		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "defenderHeader");
+		var headerText = $("<h2>").text("Defenders"); 
+		$(headerDiv).append(headerText);
 
+		// build defender div
+		var defenderDiv = $("<div>").addClass("col-xs-12").attr("id", "defenderDiv");
+
+		if(curr.side === "rebel") {
+			var defenders = empireChars;
+		} else if(curr.side === "empire") {
+			var defenders = rebelChars;
+		}
+
+		defenders.forEach( function(character) {
+			var colDiv = $("<div>").addClass("col-xs-3");
+			var playerDiv = $("<div>").addClass(`defender ${character.faction}`).attr("id", character.htmlId);
+			var playerImg = $("<img>").addClass("playerImg").attr("src", character.image);
+			var playerHP = $("<p>").text(character.hitPoints);
+
+			$(playerDiv).append(playerImg);
+			$(playerDiv).append(playerHP);
+
+			$(colDiv).append(playerDiv);
+			$(defenderDiv).append(colDiv);
+		});
+
+		// append header and defender divs to game area
+		$(gameArea).append(headerDiv);
+		$(gameArea).append(defenderDiv);
 	}
+
+
+	moveAttacker(charObj);
+
+	showDefenders();
 
 	$(contentEl).html("");
 	$(contentEl).append(gameArea);
