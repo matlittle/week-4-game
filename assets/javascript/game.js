@@ -89,8 +89,6 @@ function sidePrompt() {
 }
 
 
-
-
 $(document).ready( function() {
 	sidePrompt();
 })
@@ -133,9 +131,8 @@ function characterPrompt() {
 
 	function createClickListener() {
 		$(".possPlayer").click(function() {
-			var charBtn = $(this).attr("id");
-			console.log(charBtn);
-			charSelected(charBtn);
+			//var charBtn = $(this).attr("id");
+			charSelected(this);
 		});
 	}
 
@@ -145,21 +142,25 @@ function characterPrompt() {
 }
 
 
-function charSelected(charId) {
+function charSelected(charObj) {
 
-	var currentAttacker = $(charId);
-	var gameArea = $("<div>").addclass("row").attr("id", "gameArea")
+	console.log(charObj);
+
+	var gameArea = $("<div>").addClass("row").attr("id", "gameArea");
 
 	// after character is selected, move character to "attacker" area
 	function moveAttacker(character) {
 		
-		var attackerDiv = $("<div>").addClass("col-xs-12 currAttacker");
+		var attackerDiv = $("<div>").addClass("col-xs-12").attr("id", "attackerDiv");
 
-		$(attackerDiv).append(currentAttacker);
+		$(character).removeClass("possCharacter");
+		$(character).addClass("currAttacker");
+
+		$(attackerDiv).append(character);
 		$(gameArea).append(attackerDiv);
 	}
 
-	moveAttacker(charID);
+	moveAttacker(charObj);
 
 
 	// and move enemies into enemy staging area
