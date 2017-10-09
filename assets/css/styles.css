@@ -6,9 +6,13 @@ body {
 	background-position: center center;
 }
 
+#sidePrompt {
+	margin-top: 5%;
+	padding: 20px;
+}
+
 #sideHdr {
 	text-align: center;
-	margin-top: 10%;
 	margin-bottom: 40px;
 	color: white;
 	font-size: 4em;
@@ -16,6 +20,7 @@ body {
 
 .sideBtn {
 	margin: auto;
+	margin-bottom: 40px;
 }
 
 #rebelBtn {

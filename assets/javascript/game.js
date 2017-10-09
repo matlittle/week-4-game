@@ -2,11 +2,11 @@
 // initialize all possible characters as objects, with a value for hit points, base attack, and counter attack.
 
 // function to create player objects
-function Player(name, hp, atk, catk, el, side) {
+function Player(name, hp, atk, catk, id, side) {
 	this.hitPoints = hp;
 	this.attack = atk;
 	this.counterAttack = catk;
-	this.element = el;
+	this.htmlId = id;
 	this.faction = side;
 }
 
@@ -57,18 +57,36 @@ function sidePrompt() {
 		$(promptDiv).append(btnRow);
 
 		$("#content").append(promptDiv);
+	}
 
+	// create click listeners for side choices.
+	function createClickListener() {
+		$(".sideBtn").click(function() {
+			var clickedBtn = this.attr("id");
+			sideBtnClicked(clickedBtn);
+		});
+	}
+
+	function sideBtnClicked(id) {
+		// depending on button clicked, set current side to rebel/empire
+		if(id === "#rebelBtn") {
+			curr.side = "rebel";
+		} else {
+			curr.side = "empire";
+		}
+
+		characterPrompt();
 	}
 
 	displaySideChoice();
 
-	// depending on button clicked, set current side to rebel/empire
+	createClickListener();
 }
 
 sidePrompt();
 
-// once player chooses side, prompt them to choose a character (choices depend on side selected)
 
+// once player chooses side, prompt them to choose a character (choices depend on side selected)
 
 // after character is selected, move character to "attacker" area
 // and move enemies into enemy staging area
