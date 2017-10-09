@@ -31,28 +31,32 @@ function sidePrompt() {
 
 	// change display to show two options, rebels or empire
 	function displaySideChoice() {
+		var promptDiv = $("<div>").attr("id", "sidePrompt");
+
 		var headerRow = $("<div>").addClass("row");
 		var headerCol = $("<div>").addClass("col-xs-12");
-		var textHeader = $("<h1>").addClass("sideHdr").text("Choose your side");
+		var textHeader = $("<h1>").attr("id", "sideHdr").text("Choose your side");
 		var text = "Choose your side";
 
 		$(headerCol).append(textHeader);
 		$(headerRow).append(headerCol)
-		$("#content").append(headerRow);
+		$(promptDiv).append(headerRow);
 		
 		var btnRow = $("<div>").addClass("row")
 		var choices = ["rebel", "empire"];
 
 		choices.forEach( function(element) {
 			var sideCol = $("<div>").addClass("col-xs-6");
-			var sideChoice = $("<div>").addClass(`sideBtn ${element}Btn`);
+			var sideChoice = $("<div>").addClass("sideBtn").attr("id", `${element}Btn`);
 
 			$(sideCol).append(sideChoice);
 			$(btnRow).append(sideCol);
 			
 		});
 
-		$("#content").append(btnRow);
+		$(promptDiv).append(btnRow);
+
+		$("#content").append(promptDiv);
 
 	}
 

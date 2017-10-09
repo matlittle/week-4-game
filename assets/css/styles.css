@@ -6,7 +6,7 @@ body {
 	background-position: center center;
 }
 
-.sideHdr {
+#sideHdr {
 	text-align: center;
 	margin-top: 10%;
 	margin-bottom: 40px;
@@ -18,10 +18,10 @@ body {
 	margin: auto;
 }
 
-.rebelBtn {
+#rebelBtn {
 	content: url("../images/rebel_logo.png")
 }
 
-.empireBtn {
+#empireBtn {
 	content: url("../images/empire_logo.png")
 }
