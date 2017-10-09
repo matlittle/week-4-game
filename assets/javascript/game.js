@@ -131,15 +131,48 @@ function characterPrompt() {
 		$(contentEl).append(promptDiv);
 	}
 
+	function createClickListener() {
+		$(".possPlayer").click(function() {
+			var charBtn = $(this).attr("id");
+			console.log(charBtn);
+			charSelected(charBtn);
+		});
+	}
+
 	displayCharacterChoice(curr.side);
+
+	createClickListener();
 }
 
 
+function charSelected(charId) {
 
-// after character is selected, move character to "attacker" area
-// and move enemies into enemy staging area
+	var currentAttacker = $(charId);
+	var gameArea = $("<div>").addclass("row").attr("id", "gameArea")
+
+	// after character is selected, move character to "attacker" area
+	function moveAttacker(character) {
+		
+		var attackerDiv = $("<div>").addClass("col-xs-12 currAttacker");
+
+		$(attackerDiv).append(currentAttacker);
+		$(gameArea).append(attackerDiv);
+	}
+
+	moveAttacker(charID);
+
+
+	// and move enemies into enemy staging area
+	function showDefenders() {
+
+	}
+
+	$(contentEl).html("");
+	$(contentEl).append(gameArea);
 
 	// attack power and hp is set to power of character selected
+}
+
 
 // prompt to select a defender
 
