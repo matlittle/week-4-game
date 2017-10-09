@@ -5,3 +5,23 @@ body {
 	background-repeat: none;
 	background-position: center center;
 }
+
+.sideHdr {
+	text-align: center;
+	margin-top: 10%;
+	margin-bottom: 40px;
+	color: white;
+	font-size: 4em;
+}
+
+.sideBtn {
+	margin: auto;
+}
+
+.rebelBtn {
+	content: url("../images/rebel_logo.png")
+}
+
+.empireBtn {
+	content: url("../images/empire_logo.png")
+}
