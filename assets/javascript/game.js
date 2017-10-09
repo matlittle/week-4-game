@@ -98,7 +98,7 @@ function characterPrompt() {
 	function displayCharacterChoice(side) {
 		if(side === "rebel") {
 			var choices = [obiWan, luke, hanSolo, yoda]
-		} else {
+		} else if(side === "empire") {
 			var choices = [vader, sidious, bobaFett, rancor]
 		}
 
@@ -114,7 +114,7 @@ function characterPrompt() {
 			$(playerDiv).append(playerHP);
 
 			$(colDiv).append(playerDiv);
-			$(promptDiv).append(playerDiv);
+			$(promptDiv).append(colDiv);
 		});
 
 		$(contentEl).append(promptDiv);
