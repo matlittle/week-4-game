@@ -30,3 +30,14 @@ body {
 #empireBtn {
 	content: url("../images/empire_logo.png")
 }
+
+.possPlayer {
+	width: 200px;
+	padding: 5px;
+	text-align: center;
+}
+
+.playerImg {
+	width: 150px;
+	height: 150px;
+}

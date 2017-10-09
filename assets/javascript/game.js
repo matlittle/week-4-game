@@ -2,25 +2,30 @@
 // initialize all possible characters as objects, with a value for hit points, base attack, and counter attack.
 
 // function to create player objects
-function Player(name, hp, atk, catk, id, side) {
+function Player(hp, atk, catk, id, side, img) {
 	this.hitPoints = hp;
 	this.attack = atk;
 	this.counterAttack = catk;
 	this.htmlId = id;
 	this.faction = side;
+	this.image = `assets/images/${img}`;
 }
 
 // rebel characters
-var obiWan = new Player(100, 8, 20, "#obiWan", "rebel");
-var luke = new Player(120, 10, 25, "#luke" ,"rebel");
-var hanSolo = new Player(80, 14, 30, "#hanSolo", "rebel");
-var yoda = new Player(160, 6, 15, "#yoda", "rebel");
+var obiWan = new Player(100, 8, 20, "#obiWan", "rebel", "obi_wan.jpg");
+var luke = new Player(120, 10, 25, "#luke" ,"rebel", "luke.png");
+var hanSolo = new Player(80, 14, 30, "#hanSolo", "rebel", "han_solo.jpg");
+var yoda = new Player(160, 6, 15, "#yoda", "rebel", "yoda.jpg");
 
 // empire characters
-var vader = new Player(100, 8, 20, "#vader", "empire");
-var sidious = new Player(120, 10, 25, "#sidious", "empire");
-var bobaFett = new Player(80, 14, 30, "#bobaFett", "empire");
-var rancor = new Player(160, 6, 15, "#rancor", "empire");
+var vader = new Player(100, 8, 20, "#vader", "empire", "vader.jpg");
+var sidious = new Player(120, 10, 25, "#sidious", "empire", "sidious.png");
+var bobaFett = new Player(80, 14, 30, "#bobaFett", "empire", "boba_fett.jpg");
+var rancor = new Player(160, 6, 15, "#rancor", "empire", "rancor.jpg");
+
+
+// variables for basic elements
+var contentEl = $("#content")
 
 // hold current game state
 var curr = {};
@@ -56,13 +61,13 @@ function sidePrompt() {
 
 		$(promptDiv).append(btnRow);
 
-		$("#content").append(promptDiv);
+		$(contentEl).append(promptDiv);
 	}
 
 	// create click listeners for side choices.
 	function createClickListener() {
 		$(".sideBtn").click(function() {
-			var clickedBtn = this.attr("id");
+			var clickedBtn = $(this).attr("id");
 			sideBtnClicked(clickedBtn);
 		});
 	}
@@ -75,6 +80,8 @@ function sidePrompt() {
 			curr.side = "empire";
 		}
 
+		$(contentEl).html("")
+
 		characterPrompt();
 	}
 
@@ -86,7 +93,36 @@ function sidePrompt() {
 sidePrompt();
 
 
-// once player chooses side, prompt them to choose a character (choices depend on side selected)
+function characterPrompt() {
+	// once player chooses side, prompt them to choose a character (choices depend on side selected)
+	function displayCharacterChoice(side) {
+		if(side === "rebel") {
+			var choices = [obiWan, luke, hanSolo, yoda]
+		} else {
+			var choices = [vader, sidious, bobaFett, rancor]
+		}
+
+		var promptDiv = $("<div>").attr("id", "characterPrompt");
+
+		choices.forEach(function(option){
+			console.log(option);
+			var playerDiv = $("<div>").addClass("possPlayer").attr("id", option.htmlId);
+			var playerImg = $("<img>").addClass("playerImg").attr("src", option.image);
+			var playerHP = $("<p>").text(option.hitPoints);
+
+			$(playerDiv).append(playerImg);
+			$(playerDiv).append(playerHP);
+
+			$(promptDiv).append(playerDiv);
+		});
+
+		$(contentEl).append(promptDiv);
+	}
+
+	displayCharacterChoice();
+}
+
+
 
 // after character is selected, move character to "attacker" area
 // and move enemies into enemy staging area
