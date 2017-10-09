@@ -41,10 +41,9 @@ function sidePrompt() {
 		var headerRow = $("<div>").addClass("row");
 		var headerCol = $("<div>").addClass("col-xs-12");
 		var textHeader = $("<h1>").attr("id", "sideHdr").text("Choose your side");
-		var text = "Choose your side";
 
 		$(headerCol).append(textHeader);
-		$(headerRow).append(headerCol)
+		$(headerRow).append(headerCol);
 		$(promptDiv).append(headerRow);
 		
 		var btnRow = $("<div>").addClass("row")
@@ -60,7 +59,6 @@ function sidePrompt() {
 		});
 
 		$(promptDiv).append(btnRow);
-
 		$(contentEl).append(promptDiv);
 	}
 
@@ -90,7 +88,12 @@ function sidePrompt() {
 	createClickListener();
 }
 
-sidePrompt();
+
+
+
+$(document).ready( function() {
+	sidePrompt();
+})
 
 
 function characterPrompt() {
@@ -104,9 +107,17 @@ function characterPrompt() {
 
 		var promptDiv = $("<div>").addClass("row").attr("id", "characterPrompt");
 
-		choices.forEach(function(option){
+		var headerRow = $("<div>").addClass("row");
+		var headerCol = $("<div>").addClass("col-xs-12");
+		var textHeader = $("<h1>").attr("id", "characterHdr").text("Choose your player");
+
+		$(headerCol).append(textHeader);
+		$(headerRow).append(headerCol);
+		$(promptDiv).append(headerRow);
+
+		choices.forEach( function(option) {
 			var colDiv = $("<div>").addClass("col-xs-3");
-			var playerDiv = $("<div>").addClass("possPlayer").attr("id", option.htmlId);
+			var playerDiv = $("<div>").addClass(`possPlayer ${side}`).attr("id", option.htmlId);
 			var playerImg = $("<img>").addClass("playerImg").attr("src", option.image);
 			var playerHP = $("<p>").text(option.hitPoints);
 

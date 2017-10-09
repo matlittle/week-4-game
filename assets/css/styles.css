@@ -6,6 +6,7 @@ body {
 	background-position: center center;
 }
 
+/* SIDE PROMPT*/
 #sidePrompt {
 	margin-top: 5%;
 	padding: 20px;
@@ -31,14 +32,40 @@ body {
 	content: url("../images/empire_logo.png")
 }
 
-.possPlayer {
-	padding: 5px;
+
+
+/* CHARACTER PROMPT */
+#characterPrompt {
+	margin-top: 5%;
+	padding: 20px;
+}
+
+#characterHdr {
 	text-align: center;
+	margin-bottom: 40px;
+	color: white;
+	font-size: 4em;
+}
+
+.possPlayer {
+	margin: auto;
+	padding: 5px;
+    text-align: center;
+    width: 160px;
+}
+
+.possPlayer.rebel {
+	background-color: #592929;
+	color: black;
+}
+
+.possPlayer.empire {
+	background-color: black;
+	color: white;
 }
 
 .possPlayer > p {
-	color: black;
-	margin: 5px 0px;
+	margin: 5px auto 0px;
 }
 
 .playerImg {
