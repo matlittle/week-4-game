@@ -17,11 +17,15 @@ var luke = new Player(120, 10, 25, "#luke" ,"rebel", "luke.png");
 var hanSolo = new Player(80, 14, 30, "#hanSolo", "rebel", "han_solo.jpg");
 var yoda = new Player(160, 6, 15, "#yoda", "rebel", "yoda.jpg");
 
+var rebelChars = [obiWan, luke, hanSolo, yoda];
+
 // empire characters
 var vader = new Player(100, 8, 20, "#vader", "empire", "vader.jpg");
 var sidious = new Player(120, 10, 25, "#sidious", "empire", "sidious.png");
 var bobaFett = new Player(80, 14, 30, "#bobaFett", "empire", "boba_fett.jpg");
 var rancor = new Player(160, 6, 15, "#rancor", "empire", "rancor.jpg");
+
+var empireChars = [vader, sidious, bobaFett, rancor];
 
 
 // variables for basic elements
@@ -74,11 +78,9 @@ function sidePrompt() {
 		// depending on button clicked, set current side to rebel/empire
 		if(id === "rebelBtn") {
 			curr.side = "rebel";
-		} else {
+		} else if(id === "empireBtn") {
 			curr.side = "empire";
 		}
-
-		$(contentEl).html("")
 
 		characterPrompt();
 	}
@@ -98,9 +100,9 @@ function characterPrompt() {
 	// once player chooses side, prompt them to choose a character (choices depend on side selected)
 	function displayCharacterChoice(side) {
 		if(side === "rebel") {
-			var choices = [obiWan, luke, hanSolo, yoda]
+			var choices = rebelChars;
 		} else if(side === "empire") {
-			var choices = [vader, sidious, bobaFett, rancor]
+			var choices = empireChars;
 		}
 
 		var promptDiv = $("<div>").addClass("row").attr("id", "characterPrompt");
@@ -126,12 +128,12 @@ function characterPrompt() {
 			$(promptDiv).append(colDiv);
 		});
 
+		$(contentEl).html("")
 		$(contentEl).append(promptDiv);
 	}
 
 	function createClickListener() {
 		$(".possPlayer").click(function() {
-			//var charBtn = $(this).attr("id");
 			charSelected(this);
 		});
 	}
