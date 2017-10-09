@@ -35,6 +35,14 @@ var contentEl = $("#content")
 var curr = {};
 
 
+function addCharAttributes(char, el) {
+	$(el).attr("id", char.htmlId);
+	$(el).attr("hp", char.hitPoints);
+	$(el).attr("atk", char.attack);
+	$(el).attr("cAtk", char.counterAttack);
+	$(el).addClass(char.faction);
+}
+
 // display initial prompt to choose a side
 function sidePrompt() {
 
@@ -115,11 +123,14 @@ function characterPrompt() {
 		$(headerRow).append(headerCol);
 		$(promptDiv).append(headerRow);
 
-		choices.forEach( function(option) {
+		choices.forEach( function(character) {
 			var colDiv = $("<div>").addClass("col-xs-3");
-			var playerDiv = $("<div>").addClass(`possPlayer ${side}`).attr("id", option.htmlId);
-			var playerImg = $("<img>").addClass("playerImg").attr("src", option.image);
-			var playerHP = $("<p>").text(option.hitPoints);
+			var playerDiv = $("<div>").addClass("possPlayer");
+			var playerImg = $("<img>").addClass("playerImg").attr("src", character.image);
+			var playerHP = $("<p>").text(character.hitPoints);
+
+			// add all character attributes to html element
+			addCharAttributes(character, playerDiv);
 
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
@@ -152,32 +163,49 @@ function charSelected(charObj) {
 
 	// after character is selected, move character to "attacker" area
 	function moveAttacker(character) {
+		// build main attacker div
+		var attackerDiv = $("<div>").addClass("col-xs-12").attr("id", "attackerDiv");
+		var characterRow = $("<div>").addClass("col-xs-12");
+
 		// build attacker header
 		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "attackerHeader");
 		var headerText = $("<h2>").text("Your character");
 		$(headerDiv).append(headerText);
+		// append header to main attacker div
+		$(attackerDiv).append(headerDiv);
 
-		// build main attacker div
-		var attackerDiv = $("<div>").addClass("col-xs-12").attr("id", "attackerDiv");
+		// remove character classes
 		$(character).removeClass("possPlayer");
 		$(character).addClass("currAttacker");
-		$(attackerDiv).append(character);
 
-		// append header and attacker divs to game area
-		$(gameArea).append(headerDiv);
+		// add character to main attacker div
+		$(characterRow).append(character);
+		$(attackerDiv).append(characterRow);
+
+		// append attacker div to game area
 		$(gameArea).append(attackerDiv);
+	}
+
+
+	function createPlayArea() {
+		var playArea = $("<div>").addClass("col-xs-12").attr("id", "playArea");
+
+		$(gameArea).append(playArea);
 	}
 
 
 	// and move enemies into enemy staging area
 	function showDefenders() {
+		// build main defender div
+		var defenderDiv = $("<div>").addClass("col-xs-12").attr("id", "defenderDiv");
+
 		// build defender header
 		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "defenderHeader");
 		var headerText = $("<h2>").text("Defenders"); 
 		$(headerDiv).append(headerText);
-
-		// build defender div
-		var defenderDiv = $("<div>").addClass("col-xs-12").attr("id", "defenderDiv");
+		// add header to main defender div
+		$(defenderDiv).append(headerDiv);
+		
 
 		if(curr.side === "rebel") {
 			var defenders = empireChars;
@@ -187,9 +215,12 @@ function charSelected(charObj) {
 
 		defenders.forEach( function(character) {
 			var colDiv = $("<div>").addClass("col-xs-3");
-			var playerDiv = $("<div>").addClass(`defender ${character.faction}`).attr("id", character.htmlId);
+			var playerDiv = $("<div>").addClass("defender")
 			var playerImg = $("<img>").addClass("playerImg").attr("src", character.image);
 			var playerHP = $("<p>").text(character.hitPoints);
+
+			// add all character attributes to html element
+			addCharAttributes(character, playerDiv);
 
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
@@ -198,20 +229,20 @@ function charSelected(charObj) {
 			$(defenderDiv).append(colDiv);
 		});
 
-		// append header and defender divs to game area
-		$(gameArea).append(headerDiv);
+		// append defender divs to game area
 		$(gameArea).append(defenderDiv);
 	}
 
 
 	moveAttacker(charObj);
 
+	createPlayArea();
+
 	showDefenders();
 
 	$(contentEl).html("");
 	$(contentEl).append(gameArea);
 
-	// attack power and hp is set to power of character selected
 }
 
 
