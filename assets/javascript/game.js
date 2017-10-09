@@ -74,7 +74,7 @@ function sidePrompt() {
 
 	function sideBtnClicked(id) {
 		// depending on button clicked, set current side to rebel/empire
-		if(id === "#rebelBtn") {
+		if(id === "rebelBtn") {
 			curr.side = "rebel";
 		} else {
 			curr.side = "empire";
@@ -102,10 +102,10 @@ function characterPrompt() {
 			var choices = [vader, sidious, bobaFett, rancor]
 		}
 
-		var promptDiv = $("<div>").attr("id", "characterPrompt");
+		var promptDiv = $("<div>").addClass("row").attr("id", "characterPrompt");
 
 		choices.forEach(function(option){
-			console.log(option);
+			var colDiv = $("<div>").addClass("col-xs-3");
 			var playerDiv = $("<div>").addClass("possPlayer").attr("id", option.htmlId);
 			var playerImg = $("<img>").addClass("playerImg").attr("src", option.image);
 			var playerHP = $("<p>").text(option.hitPoints);
@@ -113,13 +113,14 @@ function characterPrompt() {
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
 
+			$(colDiv).append(playerDiv);
 			$(promptDiv).append(playerDiv);
 		});
 
 		$(contentEl).append(promptDiv);
 	}
 
-	displayCharacterChoice();
+	displayCharacterChoice(curr.side);
 }
 
 

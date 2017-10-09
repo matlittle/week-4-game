@@ -32,12 +32,17 @@ body {
 }
 
 .possPlayer {
-	width: 200px;
 	padding: 5px;
 	text-align: center;
+}
+
+.possPlayer > p {
+	color: black;
+	margin: 5px 0px;
 }
 
 .playerImg {
 	width: 150px;
 	height: 150px;
 }
+
