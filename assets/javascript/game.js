@@ -154,7 +154,7 @@ function characterPrompt() {
 	createClickListener();
 }
 
-
+// once character is selected, move them to main character area
 function charSelected(charObj) {
 
 	console.log(charObj);
@@ -247,7 +247,15 @@ function charSelected(charObj) {
 }
 
 
+// prompt to select a defender
 function defenderPrompt() {
+
+	function createClickListeners() {
+		$(".defender").click( function() {
+			defenderSelected(this);
+		});
+	}
+
 	var playArea = $("#playArea");
 
 	$(playArea).html("");
@@ -255,12 +263,55 @@ function defenderPrompt() {
 	var promptText = $("<h1>").attr("id", "defPrompt").text("Select a defender to attack");
 
 	playArea.append(promptText);
+
+	createClickListeners();
 }
 
 
-// prompt to select a defender
-
 // once a defender is selected, move them to active defender area. 
+function defenderSelected(defenderObj) {
+
+	function moveDefender(defender) {
+		var playArea = $("#playArea");
+
+		//$(defender).remove
+
+		console.log(defender);
+
+		$(defender).removeClass("defender").addClass("currentDefender");
+
+		playArea.html("");
+		playArea.append(defender);
+
+		$("#defenderDiv").remove($(defender).attr("id"));
+	}
+
+	function updateDefenderArea() {
+		// get current number of defenders
+		currentDefenders = $(".defender");
+		// calculate new col numbers
+		var newColNum = 12 / currentDefenders.length;
+
+		// get children of defender div
+		var defDivChildren = $("#defenderDiv").children();
+
+		// START AT 1 TO SKIP HEADER
+		for(var i = 1; i < defDivChildren.length; i += 1) {
+			if($(defDivChildren[i]).is(":empty")){
+				// remove child of defender div if empty
+				$(defDivChildren[i]).remove();
+			} else {
+				// otherwise assign new col class
+				$(defDivChildren[i]).removeClass();
+				$(defDivChildren[i]).addClass(`col-xs-${newColNum}`);
+			}
+		}
+	}
+
+	moveDefender(defenderObj);
+
+	updateDefenderArea();
+}
 
 // when the attack button is clicked, 
 	// attack active defender, decrementing hit points by current character's adjusted attack value
