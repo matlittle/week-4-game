@@ -270,8 +270,9 @@ function defenderSelected(defenderObj) {
 
 		$(defender).removeClass("defender").addClass("currentDefender");
 
-		// clear play area and populate with selected defender
+		// clear play area and populate with attack button and selected defender
 		playArea.html("");
+		addAttackBtn();
 		playArea.append(defender);
 
 		// remove selected defender from defender row
@@ -303,6 +304,14 @@ function defenderSelected(defenderObj) {
 	function removeClickListeners() {
 		console.log("clicks off");
 		$(".defender").off("click");
+	}
+
+	function addAttackBtn() {
+		var attackBtn = $("<button>").attr("id", "attackBtn").text("Attack");
+		var btnCol = $("<div>").addClass("col-xs-12");
+		var btnRow = $("<div>").addClass("row");
+
+		myAppend(attackBtn, btnCol, btnRow, playArea);
 	}
 
 

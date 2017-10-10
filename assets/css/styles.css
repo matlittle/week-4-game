@@ -96,3 +96,8 @@ body {
 	margin-top: 10%;
 }
 
+#attackBtn {
+	margin: 1% auto 4%;
+	padding: 4px 10px;
+	display: block;
+}
