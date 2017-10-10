@@ -180,6 +180,10 @@ function charSelected(charObj) {
 
 		// add character to main attacker div, and append attacker div to game area
 		myAppend(character, characterRow, attackerDiv, gameArea);
+
+		// set current attack power to attack power of character
+		curr.attack = parseInt(character.attr("atk"));
+		curr.adjAttack = curr.attack;
 	}
 
 
@@ -312,6 +316,12 @@ function defenderSelected(defenderObj) {
 		myAppend(attackBtn, btnCol, btnRow, playArea);
 	}
 
+	function addAttackListener() {
+		$("#attackBtn").click( function() {
+			attackBtnClicked();
+		});
+	}
+
 
 	removeClickListeners();
 
@@ -320,14 +330,18 @@ function defenderSelected(defenderObj) {
 	updateDefenderArea();
 }
 
-// when the attack button is clicked, 
-	// attack active defender, decrementing hit points by current character's adjusted attack value
-		// if the attack drops defenders hp to zero or lower
-			// remove defender from play area, and prompt user to choose a new defender
-				// if no defenders remain, then the player wins
-	// defender counter attacks by their counter-attack power, and current character's hp is decremented
-		// if current character's hp is zero or lower, the game is lost
-	// attack power of character is increased by base attack power
+
+function attackBtnClicked() {
+	// when the attack button is clicked, 
+		// attack active defender, decrementing hit points by current character's adjusted attack value
+			// if the attack drops defenders hp to zero or lower
+				// remove defender from play area, and prompt user to choose a new defender
+					// if no defenders remain, then the player wins
+		// defender counter attacks by their counter-attack power, and current character's hp is decremented
+			// if current character's hp is zero or lower, the game is lost
+		// attack power of character is increased by base attack power
+}
+
 
 // 
 
