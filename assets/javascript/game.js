@@ -312,6 +312,8 @@ function defenderSelected(defenderObj) {
 		var btnRow = $("<div>").addClass("row").attr("id", "attackBtnRow");
 
 		myAppend(attackBtn, btnCol, btnRow, playArea);
+
+		addAttackListener();
 	}
 
 	function addAttackListener() {
@@ -346,6 +348,7 @@ function attackBtnClicked() {
 
 		// update current defender's hp to new decremented value
 		$(defender).attr("hp", defenderHP);
+		$("p", defender).text(defenderHP);
 
 		// if the attack drops defenders hp to zero or lower
 		if(defenderHP <= 0) {
@@ -367,6 +370,7 @@ function attackBtnClicked() {
 
 		// update attacker's hp to new decremented value
 		$(attacker).attr("hp", attackerHP);
+		$("p", attacker).text(attackerHP)
 
 		// if current character's hp is zero or lower, the game is lost
 		if(attackerHP <= 0) {
@@ -374,8 +378,12 @@ function attackBtnClicked() {
 		}
 	}
 
-				
-					// if no defenders remain, then the player wins
+	attackDefender();
+
+	console.log(curr);
+	
+
+	// if no defenders remain, then the player wins
 
 		
 }
