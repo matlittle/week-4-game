@@ -35,12 +35,20 @@ var contentEl = $("#content")
 var curr = {};
 
 
+// add multiple attributes of characters to their html element
 function addCharAttributes(char, el) {
 	$(el).attr("id", char.htmlId);
 	$(el).attr("hp", char.hitPoints);
 	$(el).attr("atk", char.attack);
 	$(el).attr("cAtk", char.counterAttack);
 	$(el).addClass(char.faction);
+}
+
+// append multiple elements together, args passed in child -> parent order
+function myAppend() {
+	for(var i = 0; i+1 < arguments.length; i += 1) {
+		$(arguments[i+1]).append(arguments[i]);
+	}
 }
 
 // display initial prompt to choose a side
@@ -54,9 +62,7 @@ function sidePrompt() {
 		var headerCol = $("<div>").addClass("col-xs-12");
 		var textHeader = $("<h1>").attr("id", "sideHdr").text("Choose your side");
 
-		$(headerCol).append(textHeader);
-		$(headerRow).append(headerCol);
-		$(promptDiv).append(headerRow);
+		myAppend(textHeader, headerCol, headerRow, promptDiv);
 		
 		var btnRow = $("<div>").addClass("row")
 		var choices = ["rebel", "empire"];
@@ -65,13 +71,15 @@ function sidePrompt() {
 			var sideCol = $("<div>").addClass("col-xs-6");
 			var sideChoice = $("<div>").addClass("sideBtn").attr("id", `${element}Btn`);
 
-			$(sideCol).append(sideChoice);
-			$(btnRow).append(sideCol);
+			//$(sideCol).append(sideChoice);
+			//$(btnRow).append(sideCol);
+			myAppend(sideChoice, sideCol, btnRow);
 			
 		});
 
-		$(promptDiv).append(btnRow);
-		$(contentEl).append(promptDiv);
+		//$(promptDiv).append(btnRow);
+		//$(contentEl).append(promptDiv);
+		myAppend(btnRow, promptDiv, contentEl);
 	}
 
 	// create click listeners for side choices.
@@ -119,9 +127,10 @@ function characterPrompt() {
 		var headerCol = $("<div>").addClass("col-xs-12");
 		var textHeader = $("<h1>").attr("id", "characterHdr").text("Choose your player");
 
-		$(headerCol).append(textHeader);
-		$(headerRow).append(headerCol);
-		$(promptDiv).append(headerRow);
+		//$(headerCol).append(textHeader);
+		//$(headerRow).append(headerCol);
+		//$(promptDiv).append(headerRow);
+		myAppend(textHeader, headerCol, headerRow, promptDiv);
 
 		choices.forEach( function(character) {
 			var colDiv = $("<div>").addClass("col-xs-3");
@@ -135,8 +144,9 @@ function characterPrompt() {
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
 
-			$(colDiv).append(playerDiv);
-			$(promptDiv).append(colDiv);
+			//$(colDiv).append(playerDiv);
+			//$(promptDiv).append(colDiv);
+			myAppend(playerDiv, colDiv, promptDiv);
 		});
 
 		$(contentEl).html("")
@@ -170,20 +180,22 @@ function charSelected(charObj) {
 		// build attacker header
 		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "attackerHeader");
 		var headerText = $("<h2>").text("Your character");
-		$(headerDiv).append(headerText);
 		// append header to main attacker div
-		$(attackerDiv).append(headerDiv);
+		//$(headerDiv).append(headerText);
+		//$(attackerDiv).append(headerDiv);
+		myAppend(headerText, headerDiv, attackerDiv);
 
 		// remove character classes
 		$(character).removeClass("possPlayer");
 		$(character).addClass("currAttacker");
 
 		// add character to main attacker div
-		$(characterRow).append(character);
-		$(attackerDiv).append(characterRow);
+		//$(characterRow).append(character);
+		//$(attackerDiv).append(characterRow);
 
 		// append attacker div to game area
-		$(gameArea).append(attackerDiv);
+		//$(gameArea).append(attackerDiv);
+		myAppend(character, characterRow, attackerDiv, gameArea);
 	}
 
 
@@ -202,9 +214,10 @@ function charSelected(charObj) {
 		// build defender header
 		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "defenderHeader");
 		var headerText = $("<h2>").text("Defenders"); 
-		$(headerDiv).append(headerText);
+		//$(headerDiv).append(headerText);
 		// add header to main defender div
-		$(defenderDiv).append(headerDiv);
+		//$(defenderDiv).append(headerDiv);
+		myAppend(headerText, headerDiv, defenderDiv);
 		
 
 		if(curr.side === "rebel") {
@@ -225,8 +238,9 @@ function charSelected(charObj) {
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
 
-			$(colDiv).append(playerDiv);
-			$(defenderDiv).append(colDiv);
+			//$(colDiv).append(playerDiv);
+			//$(defenderDiv).append(colDiv);
+			myAppend(playerDiv, colDiv, defenderDiv);
 		});
 
 		// append defender divs to game area
@@ -274,15 +288,13 @@ function defenderSelected(defenderObj) {
 	function moveDefender(defender) {
 		var playArea = $("#playArea");
 
-		//$(defender).remove
-
-		console.log(defender);
-
 		$(defender).removeClass("defender").addClass("currentDefender");
 
+		// clear play area and populate with selected defender
 		playArea.html("");
 		playArea.append(defender);
 
+		// remove selected defender from defender row
 		$("#defenderDiv").remove($(defender).attr("id"));
 	}
 
@@ -307,6 +319,14 @@ function defenderSelected(defenderObj) {
 			}
 		}
 	}
+
+	function removeClickListeners() {
+		console.log("clicks off");
+		$(".defender").off("click");
+	}
+
+
+	removeClickListeners();
 
 	moveDefender(defenderObj);
 
