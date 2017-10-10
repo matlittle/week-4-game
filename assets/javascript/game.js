@@ -40,7 +40,7 @@ function addCharAttributes(char, el) {
 	$(el).attr("id", char.htmlId);
 	$(el).attr("hp", char.hitPoints);
 	$(el).attr("atk", char.attack);
-	$(el).attr("cAtk", char.counterAttack);
+	$(el).attr("catk", char.counterAttack);
 	$(el).addClass(char.faction);
 }
 
@@ -102,12 +102,7 @@ function sidePrompt() {
 	createClickListener();
 }
 
-
-$(document).ready( function() {
-	sidePrompt();
-})
-
-
+// prompt to select a main character
 function characterPrompt() {
 	// once player chooses side, prompt them to choose a character (choices depend on side selected)
 	function displayCharacterChoice(side) {
@@ -174,9 +169,9 @@ function charSelected(charObj) {
 		// append header to main attacker div
 		myAppend(headerText, headerDiv, attackerDiv);
 
-		// remove character classes
+		// remove possible class and add current class
 		$(character).removeClass("possPlayer");
-		$(character).addClass("currAttacker");
+		$(character).addClass("currentAttacker");
 
 		// add character to main attacker div, and append attacker div to game area
 		myAppend(character, characterRow, attackerDiv, gameArea);
@@ -335,20 +330,61 @@ function defenderSelected(defenderObj) {
 
 
 function attackBtnClicked() {
+	// get current character elements
+	var attacker = $(".currentAttacker");
+	var defender = $(".currentDefender");
+
 	// when the attack button is clicked, 
 	function attackDefender() {
-		var defenderHP = $(".currentDefender").attr("hp");
-		
+		// get defenders current HP
+		var defenderHP = $(defender).attr("hp");
+
+		// decrement HP by current adjusted attack
+		defenderHP -= curr.adjAttack;
+		// adjusted attack power of character is increased by base attack power
+		curr.adjAttack += curr.attack;
+
+		// update current defender's hp to new decremented value
+		$(defender).attr("hp", defenderHP);
+
+		// if the attack drops defenders hp to zero or lower
+		if(defenderHP <= 0) {
+			// remove defender from play area, and prompt user to choose a new defender
+			defenderDefeated();
+		} else {
+			// defender counter attacks by their counter-attack power,
+			counterAttack();
+		}
 	}
-		// attack active defender, decrementing hit points by current character's adjusted attack value
-			// if the attack drops defenders hp to zero or lower
-				// remove defender from play area, and prompt user to choose a new defender
+
+	function counterAttack() {
+		// get defender's counter attack and attacker's hit points
+		var defenderCAtk = $(defender).attr("catk");
+		var attackerHP = $(attacker).attr("hp");
+
+		// decrement character HP by counter attack
+		attackerHP -= defenderCAtk;
+
+		// update attacker's hp to new decremented value
+		$(attacker).attr("hp", attackerHP);
+
+		// if current character's hp is zero or lower, the game is lost
+		if(attackerHP <= 0) {
+			lostGame();
+		}
+	}
+
+				
 					// if no defenders remain, then the player wins
-		// defender counter attacks by their counter-attack power, and current character's hp is decremented
-			// if current character's hp is zero or lower, the game is lost
-		// attack power of character is increased by base attack power
+
+		
 }
 
+
+
+$(document).ready( function() {
+	sidePrompt();
+})
 
 // 
 
