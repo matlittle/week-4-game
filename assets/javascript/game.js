@@ -181,20 +181,13 @@ function charSelected(charObj) {
 		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "attackerHeader");
 		var headerText = $("<h2>").text("Your character");
 		// append header to main attacker div
-		//$(headerDiv).append(headerText);
-		//$(attackerDiv).append(headerDiv);
 		myAppend(headerText, headerDiv, attackerDiv);
 
 		// remove character classes
 		$(character).removeClass("possPlayer");
 		$(character).addClass("currAttacker");
 
-		// add character to main attacker div
-		//$(characterRow).append(character);
-		//$(attackerDiv).append(characterRow);
-
-		// append attacker div to game area
-		//$(gameArea).append(attackerDiv);
+		// add character to main attacker div, and append attacker div to game area
 		myAppend(character, characterRow, attackerDiv, gameArea);
 	}
 
@@ -214,9 +207,7 @@ function charSelected(charObj) {
 		// build defender header
 		var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "defenderHeader");
 		var headerText = $("<h2>").text("Defenders"); 
-		//$(headerDiv).append(headerText);
 		// add header to main defender div
-		//$(defenderDiv).append(headerDiv);
 		myAppend(headerText, headerDiv, defenderDiv);
 		
 
@@ -238,8 +229,6 @@ function charSelected(charObj) {
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
 
-			//$(colDiv).append(playerDiv);
-			//$(defenderDiv).append(colDiv);
 			myAppend(playerDiv, colDiv, defenderDiv);
 		});
 
