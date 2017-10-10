@@ -336,6 +336,10 @@ function defenderSelected(defenderObj) {
 
 function attackBtnClicked() {
 	// when the attack button is clicked, 
+	function attackDefender() {
+		var defenderHP = $(".currentDefender").attr("hp");
+		
+	}
 		// attack active defender, decrementing hit points by current character's adjusted attack value
 			// if the attack drops defenders hp to zero or lower
 				// remove defender from play area, and prompt user to choose a new defender
