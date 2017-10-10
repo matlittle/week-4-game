@@ -182,7 +182,7 @@ function charSelected(charObj) {
 		myAppend(character, characterRow, attackerDiv, gameArea);
 
 		// set current attack power to attack power of character
-		curr.attack = parseInt(character.attr("atk"));
+		curr.attack = parseInt($(character).attr("atk"));
 		curr.adjAttack = curr.attack;
 	}
 
@@ -269,13 +269,16 @@ function defenderSelected(defenderObj) {
 
 	function moveDefender(defender) {
 		var playArea = $("#playArea");
+		var currDefRow = $("<div>").addClass("row").attr("id", "currentDefenderRow");
 
 		$(defender).removeClass("defender").addClass("currentDefender");
 
-		// clear play area and populate with attack button and selected defender
+		// clear play area 
 		playArea.html("");
+
+		//populate play area with attack button and selected defender
 		addAttackBtn();
-		playArea.append(defender);
+		myAppend(defender, currDefRow, playArea);
 
 		// remove selected defender from defender row
 		$("#defenderDiv").remove($(defender).attr("id"));
@@ -311,7 +314,7 @@ function defenderSelected(defenderObj) {
 	function addAttackBtn() {
 		var attackBtn = $("<button>").attr("id", "attackBtn").text("Attack");
 		var btnCol = $("<div>").addClass("col-xs-12");
-		var btnRow = $("<div>").addClass("row");
+		var btnRow = $("<div>").addClass("row").attr("id", "attackBtnRow");
 
 		myAppend(attackBtn, btnCol, btnRow, playArea);
 	}
