@@ -251,12 +251,10 @@ function defenderPrompt() {
 	}
 
 	var playArea = $("#playArea");
-
-	$(playArea).html("");
-
 	var promptText = $("<h1>").attr("id", "defPrompt").text("Select a defender to attack");
 
-	playArea.append(promptText);
+	$(playArea).html("");
+	$(playArea).append(promptText);
 
 	createClickListeners();
 }
