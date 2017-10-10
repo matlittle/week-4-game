@@ -71,14 +71,10 @@ function sidePrompt() {
 			var sideCol = $("<div>").addClass("col-xs-6");
 			var sideChoice = $("<div>").addClass("sideBtn").attr("id", `${element}Btn`);
 
-			//$(sideCol).append(sideChoice);
-			//$(btnRow).append(sideCol);
 			myAppend(sideChoice, sideCol, btnRow);
 			
 		});
 
-		//$(promptDiv).append(btnRow);
-		//$(contentEl).append(promptDiv);
 		myAppend(btnRow, promptDiv, contentEl);
 	}
 
@@ -127,9 +123,6 @@ function characterPrompt() {
 		var headerCol = $("<div>").addClass("col-xs-12");
 		var textHeader = $("<h1>").attr("id", "characterHdr").text("Choose your player");
 
-		//$(headerCol).append(textHeader);
-		//$(headerRow).append(headerCol);
-		//$(promptDiv).append(headerRow);
 		myAppend(textHeader, headerCol, headerRow, promptDiv);
 
 		choices.forEach( function(character) {
@@ -144,8 +137,6 @@ function characterPrompt() {
 			$(playerDiv).append(playerImg);
 			$(playerDiv).append(playerHP);
 
-			//$(colDiv).append(playerDiv);
-			//$(promptDiv).append(colDiv);
 			myAppend(playerDiv, colDiv, promptDiv);
 		});
 
