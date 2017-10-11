@@ -72,6 +72,33 @@ body {
 }
 
 
+/* INFO ROW */
+#infoRow {
+	height: 25%;
+}
+
+#attackBtn {
+	margin: auto;
+	padding: 4px 10px;
+	display: block;
+}
+
+#attackInfo, #counterInfo {
+	color: white;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+#attackInfo {
+	text-shadow: -1px 0 1px green, 0 1px 1px green, 1px 0 1px green, 0 -1px 1px green;
+}
+	
+
+#counterInfo {
+	text-shadow: -1px 0 1px red, 0 1px 1px red, 1px 0 1px red, 0 -1px 1px red;
+}
+
+
 /* MAIN GAME AREA */
 #attackerDiv {
 	height: 30%;
@@ -96,19 +123,14 @@ body {
 	margin-top: 10%;
 }
 
-#attackBtnRow {
-	height: 25%;
-}
-
-#attackBtn {
-	margin: auto;
-	padding: 4px 10px;
-	display: block;
-}
-
 #currentDefenderRow {
 	height: 75%;
 }
+
+
+
+
+
 
 
 /* GAME OVER PROMPT */

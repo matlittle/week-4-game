@@ -7,28 +7,29 @@ function init() {
 	// base attack, and counter attack.
 	
 	// function to create player objects
-	function Player(hp, atk, catk, id, side, img) {
+	function Player(hp, atk, catk, id, name, side, img) {
 		this.hitPoints = hp;
 		this.attack = atk;
 		this.counterAttack = catk;
 		this.htmlId = id;
+		this.name = name;
 		this.faction = side;
 		this.image = `assets/images/${img}`;
 	}
 
 	// rebel characters
-	var obiWan = new Player(100, 8, 20, "#obiWan", "rebel", "obi_wan.jpg");
-	var luke = new Player(120, 10, 25, "#luke" ,"rebel", "luke.png");
-	var hanSolo = new Player(80, 14, 30, "#hanSolo", "rebel", "han_solo.jpg");
-	var yoda = new Player(160, 6, 15, "#yoda", "rebel", "yoda.jpg");
+	var obiWan = new Player(100, 8, 20, "obi", "Obi-Wan Kenobi", "rebel", "obi_wan.jpg");
+	var luke = new Player(120, 10, 25, "luke", "Luke Skywalker" ,"rebel", "luke.png");
+	var hanSolo = new Player(80, 14, 30, "han", "Han Solo", "rebel", "han_solo.jpg");
+	var yoda = new Player(160, 6, 15, "yoda", "Yoda", "rebel", "yoda.jpg");
 
 	var rebelChars = [obiWan, luke, hanSolo, yoda];
 
 	// empire characters
-	var vader = new Player(100, 8, 20, "#vader", "empire", "vader.jpg");
-	var sidious = new Player(120, 10, 25, "#sidious", "empire", "sidious.png");
-	var bobaFett = new Player(80, 14, 30, "#bobaFett", "empire", "boba_fett.jpg");
-	var rancor = new Player(160, 6, 15, "#rancor", "empire", "rancor.jpg");
+	var vader = new Player(100, 8, 20, "vader", "Darth Vader", "empire", "vader.jpg");
+	var sidious = new Player(120, 10, 25, "sidious", "Darth Sidious", "empire", "sidious.png");
+	var bobaFett = new Player(80, 14, 30, "boba", "Boba Fett", "empire", "boba_fett.jpg");
+	var rancor = new Player(160, 6, 15, "rancor", "Rancor", "empire", "rancor.jpg");
 
 	var empireChars = [vader, sidious, bobaFett, rancor];
 
@@ -47,6 +48,7 @@ function init() {
 	// add multiple attributes of characters to their html element
 	function addCharAttributes(char, el) {
 		$(el).attr("id", char.htmlId);
+		$(el).attr("name", char.name);
 		$(el).attr("hp", char.hitPoints);
 		$(el).attr("atk", char.attack);
 		$(el).attr("catk", char.counterAttack);
@@ -274,8 +276,10 @@ function init() {
 			// clear play area 
 			playArea.html("");
 
-			//populate play area with attack button and selected defender
-			addAttackBtn();
+			//populate play area with info row and attack button first
+			addInfoRow();
+
+			// add defender to play area. 
 			myAppend(defender, currDefRow, playArea);
 
 			// remove selected defender from defender row
@@ -309,12 +313,36 @@ function init() {
 			$(".defender").off("click");
 		}
 
+		function addAttackListener() {
+			$("#attackBtn").click( function() {
+				attackBtnClicked();
+			});
+		}
+
+		removeClickListeners();
+
+		moveDefender(defenderObj);
+
+		updateDefenderArea();
+	}
+
+	function addInfoRow() {
+
+		var infoRow = $("<div>").addClass("row").attr("id", "infoRow");
+
+		function addInfoColumn(id) {
+			var infoP = $("<p>").attr("id", id);
+			var infoColumn = $("<div>").addClass("col-xs-5");
+
+			myAppend(infoP, infoColumn, infoRow);
+
+		}
+
 		function addAttackBtn() {
 			var attackBtn = $("<button>").attr("id", "attackBtn").text("Attack");
-			var btnCol = $("<div>").addClass("col-xs-12");
-			var btnRow = $("<div>").addClass("row").attr("id", "attackBtnRow");
-
-			myAppend(attackBtn, btnCol, btnRow, playArea);
+			var btnCol = $("<div>").addClass("col-xs-2");
+			
+			myAppend(attackBtn, btnCol, infoRow, playArea);
 
 			addAttackListener();
 		}
@@ -326,11 +354,9 @@ function init() {
 		}
 
 
-		removeClickListeners();
-
-		moveDefender(defenderObj);
-
-		updateDefenderArea();
+		addInfoColumn("attackInfo");
+		addAttackBtn();
+		addInfoColumn("counterInfo");
 	}
 
 	// run through attack and counter attack
@@ -339,6 +365,10 @@ function init() {
 		var attacker = $(".currentAttacker");
 		var defender = $(".currentDefender");
 
+		// get name of current attacker/defender
+		var attackerName = $(attacker).attr("name");
+		var defenderName = $(defender).attr("name");
+
 		// when the attack button is clicked, 
 		function attackDefender() {
 			// get defenders current HP
@@ -346,8 +376,6 @@ function init() {
 
 			// decrement HP by current adjusted attack
 			defenderHP -= curr.adjAttack;
-			// adjusted attack power of character is increased by base attack power
-			curr.adjAttack += curr.attack;
 
 			// update current defender's hp to new decremented value
 			$(defender).attr("hp", defenderHP);
@@ -355,12 +383,19 @@ function init() {
 
 			// if the attack drops defenders hp to zero or lower
 			if(defenderHP <= 0) {
+				// display defender defeated
+				updateAttackInfo(true);
 				// remove defender from play area, and prompt user to choose a new defender
 				defenderDefeated();
 			} else {
+				// display attack stats
+				updateAttackInfo(false);
 				// defender counter attacks by their counter-attack power,
 				counterAttack();
 			}
+
+			// adjusted attack power of character is increased by base attack power
+			curr.adjAttack += curr.attack;
 		}
 
 		function counterAttack() {
@@ -377,7 +412,13 @@ function init() {
 
 			// if current character's hp is zero or lower, the game is lost
 			if(attackerHP <= 0) {
+				// display attacker defeated
+				updateCounterInfo(true);
+				// show game over
 				lostGame();
+			} else {
+				// display counter attack info
+				updateCounterInfo(false);
 			}
 		}
 
@@ -395,7 +436,32 @@ function init() {
 				// prompt to choose a new defender
 				defenderPrompt();
 			}
-			
+		}
+
+		function updateAttackInfo(defeated) {
+
+			if(defeated) {
+				var infoText = `${attackerName} has defeated ${defenderName}!`;
+			} else {
+				var infoText = `${attackerName} attacks ${defenderName} for ${curr.adjAttack} damage!`;
+			}
+
+			$("#attackInfo").text("");
+			$("#attackInfo").text(infoText);
+		}
+
+		function updateCounterInfo(defeated) {
+
+			var counterAttack = $(defender).attr("catk");
+
+			if(defeated) {
+				var infoText = `${defenderName} has defeated ${attackerName}!`;
+			} else {
+				var infoText = `${defenderName} counters ${attackerName} for ${counterAttack} damage!`;
+			}
+
+			$("#counterInfo").text("");
+			$("#counterInfo").text(infoText);
 		}
 
 		attackDefender();
@@ -413,7 +479,7 @@ function init() {
 
 		function promptLostGame() {
 			if(curr.side === "rebel") {
-				var lostText = "The Empire has defeated you!"
+				var lostText = "The Empire has destroyed you!"
 			} else if(curr.side === "empire") {
 				var lostText = "The Rebels have triumphed!"
 			}
