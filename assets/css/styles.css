@@ -109,3 +109,15 @@ body {
 #currentDefenderRow {
 	height: 75%;
 }
+
+
+/* GAME OVER PROMPT */
+.gameOver {
+	font-size: 4em;
+	margin-top: 5%;
+}
+
+#resetBtn {
+	display: block;
+	margin: auto;
+}
