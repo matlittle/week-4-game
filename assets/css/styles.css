@@ -79,8 +79,15 @@ body {
 
 #attackBtn {
 	margin: auto;
-	padding: 4px 10px;
-	display: block;
+	padding-bottom: 70px;
+    height: 90px;
+    width: 140px;
+    display: block;
+    background: url(../images/attack.png) no-repeat bottom;
+    background-size: cover;
+    border: none;
+    outline: none;
+    color: white;
 }
 
 #attackInfo, #counterInfo {
@@ -90,7 +97,7 @@ body {
 }
 
 #attackInfo {
-	text-shadow: -1px 0 1px green, 0 1px 1px green, 1px 0 1px green, 0 -1px 1px green;
+	text-shadow: -1px 0 1px #00ccff, 0 1px 1px #00ccff, 1px 0 1px #00ccff, 0 -1px 1px #00ccff;
 }
 	
 
@@ -101,7 +108,7 @@ body {
 
 /* MAIN GAME AREA */
 #attackerRow {
-	height: 30%;
+	height: 20%;
 }
 
 #infoRow {

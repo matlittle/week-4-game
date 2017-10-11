@@ -438,9 +438,6 @@ function init() {
 			// get number of remaining defenders
 			currentDefenders = $(".defender");
 
-			console.log(currentDefenders);
-			console.log(currentDefenders.length);
-
 			if(currentDefenders.length <= 0){
 				// if no defenders remain you won
 				wonGame();
