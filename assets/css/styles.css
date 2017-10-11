@@ -74,7 +74,8 @@ body {
 
 /* INFO ROW */
 #infoRow {
-	height: 25%;
+	height: 10%;
+	min-height: 100px;
 }
 
 #attackBtn {
@@ -107,20 +108,23 @@ body {
 
 
 /* MAIN GAME AREA */
-#attackerRow {
-	height: 20%;
+#content {
+	min-width: 1000px;
 }
 
-#infoRow {
-	height: 10%;
+#attackerRow {
+	height: 20%;
+	min-height: 210px;
 }
 
 #playRow {
-	height: 30%;
+	height: 20%;
+	min-height: 150px;
 }
 
 #defenderRow {
-	height: 30%;
+	height: 20%;
+	min-height: 200px;
 }
 
 .gameHeader, #defPrompt {
