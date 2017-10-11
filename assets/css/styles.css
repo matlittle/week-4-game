@@ -100,15 +100,19 @@ body {
 
 
 /* MAIN GAME AREA */
-#attackerDiv {
+#attackerRow {
 	height: 30%;
 }
 
-#playArea {
-	height: 40%;
+#infoRow {
+	height: 10%;
 }
 
-#defenderDiv {
+#playRow {
+	height: 30%;
+}
+
+#defenderRow {
 	height: 30%;
 }
 
@@ -123,10 +127,11 @@ body {
 	margin-top: 10%;
 }
 
+/*
 #currentDefenderRow {
 	height: 75%;
 }
-
+*/
 
 
 

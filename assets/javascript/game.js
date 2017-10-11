@@ -1,7 +1,4 @@
 
-
-
-
 function init() {
 	// initialize all possible characters as objects, with a value for hit points, 
 	// base attack, and counter attack.
@@ -36,7 +33,7 @@ function init() {
 
 	// variables for basic elements
 	var contentEl = $("#content")
-	var playArea = $("<div>").addClass("col-xs-12").attr("id", "playArea");
+	var playRow = $("<div>").addClass("row").attr("id", "playRow");
 
 	// hold current game state
 	var curr = {};
@@ -163,29 +160,27 @@ function init() {
 
 	// once character is selected, move them to main character area
 	function charSelected(charObj) {
-
-		console.log(charObj);
-
-		var gameArea = $("<div>").addClass("row").attr("id", "gameArea");
-
 		// after character is selected, move character to "attacker" area
 		function moveAttacker(character) {
+			// clear content element
+			$(contentEl).html("");
+
 			// build main attacker div
-			var attackerDiv = $("<div>").addClass("col-xs-12").attr("id", "attackerDiv");
+			var attackerRow = $("<div>").addClass("row").attr("id", "attackerRow");
 			var characterRow = $("<div>").addClass("col-xs-12");
 
 			// build attacker header
 			var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "attackerHeader");
 			var headerText = $("<h2>").text("Your character");
 			// append header to main attacker div
-			myAppend(headerText, headerDiv, attackerDiv);
+			myAppend(headerText, headerDiv, attackerRow);
 
 			// remove possible class and add current class
 			$(character).removeClass("possPlayer");
 			$(character).addClass("currentAttacker");
 
-			// add character to main attacker div, and append attacker div to game area
-			myAppend(character, characterRow, attackerDiv, gameArea);
+			// add character to main attacker div, and append attacker div to content element
+			myAppend(character, characterRow, attackerRow, contentEl);
 
 			// set current attack power to attack power of character
 			curr.attack = parseInt($(character).attr("atk"));
@@ -193,21 +188,22 @@ function init() {
 		}
 
 
-		function createPlayArea() {
-			$(gameArea).append(playArea);
+		function createInfoAndPlayRows() {
+			addInfoRow();
+			addPlayRow();
 		}
 
 
 		// and move enemies into enemy staging area
 		function showDefenders() {
 			// build main defender div
-			var defenderDiv = $("<div>").addClass("col-xs-12").attr("id", "defenderDiv");
+			var defenderRow = $("<div>").addClass("row").attr("id", "defenderRow");
 
 			// build defender header
 			var headerDiv = $("<div>").addClass("col-xs-12 gameHeader").attr("id", "defenderHeader");
 			var headerText = $("<h2>").text("Defenders"); 
 			// add header to main defender div
-			myAppend(headerText, headerDiv, defenderDiv);
+			myAppend(headerText, headerDiv, defenderRow);
 			
 
 			if(curr.side === "rebel") {
@@ -228,24 +224,57 @@ function init() {
 				$(playerDiv).append(playerImg);
 				$(playerDiv).append(playerHP);
 
-				myAppend(playerDiv, colDiv, defenderDiv);
+				myAppend(playerDiv, colDiv, defenderRow);
 			});
 
 			// append defender divs to game area
-			$(gameArea).append(defenderDiv);
+			$(contentEl).append(defenderRow);
 		}
 
 
 		moveAttacker(charObj);
 
-		createPlayArea();
+		createInfoAndPlayRows();
 
 		showDefenders();
 
-		$(contentEl).html("");
-		$(contentEl).append(gameArea);
-
 		defenderPrompt();
+	}
+
+	// add info row to content area
+	function addInfoRow() {
+
+		var infoRow = $("<div>").addClass("row").attr("id", "infoRow");
+
+		function addInfoColumn(id) {
+			var infoP = $("<p>").attr("id", id);
+			var infoColumn = $("<div>").addClass("col-xs-5");
+
+			myAppend(infoP, infoColumn, infoRow);
+
+		}
+
+		function addAttackBtn() {
+			var attackBtn = $("<button>").text("Attack");
+			attackBtn.attr("id", "attackBtn").css("display", "none");
+
+			var btnCol = $("<div>").addClass("col-xs-2");
+			
+			myAppend(attackBtn, btnCol, infoRow);
+
+		}
+
+
+		addInfoColumn("attackInfo");
+		addAttackBtn();
+		addInfoColumn("counterInfo");
+
+		$(contentEl).append(infoRow);
+	}
+
+	// add play row to content area
+	function addPlayRow() {
+		$(contentEl).append(playRow);
 	}
 
 	// prompt to select a defender
@@ -259,8 +288,8 @@ function init() {
 
 		var promptText = $("<h1>").attr("id", "defPrompt").text("Select a defender to attack");
 
-		$(playArea).html("");
-		$(playArea).append(promptText);
+		$(playRow).html("");
+		$(playRow).append(promptText);
 
 		createClickListeners();
 	}
@@ -274,16 +303,13 @@ function init() {
 			$(defender).removeClass("defender").addClass("currentDefender");
 
 			// clear play area 
-			playArea.html("");
-
-			//populate play area with info row and attack button first
-			addInfoRow();
+			playRow.html("");
 
 			// add defender to play area. 
-			myAppend(defender, currDefRow, playArea);
+			myAppend(defender, currDefRow, playRow);
 
 			// remove selected defender from defender row
-			$("#defenderDiv").remove($(defender).attr("id"));
+			$("#defenderRow").remove($(defender).attr("id"));
 		}
 
 		function updateDefenderArea() {
@@ -293,7 +319,7 @@ function init() {
 			var newColNum = 12 / currentDefenders.length;
 
 			// get children of defender div
-			var defDivChildren = $("#defenderDiv").children();
+			var defDivChildren = $("#defenderRow").children();
 
 			// START AT 1 TO SKIP HEADER
 			for(var i = 1; i < defDivChildren.length; i += 1) {
@@ -308,55 +334,33 @@ function init() {
 			}
 		}
 
-		function removeClickListeners() {
-			console.log("clicks off");
-			$(".defender").off("click");
-		}
-
 		function addAttackListener() {
 			$("#attackBtn").click( function() {
 				attackBtnClicked();
 			});
 		}
 
-		removeClickListeners();
+		removeClickListener(".defender");
 
 		moveDefender(defenderObj);
 
 		updateDefenderArea();
+
+		addAttackListener();
+
+		toggleVisibility("#attackBtn");
 	}
 
-	function addInfoRow() {
+	function removeClickListener(element) {
+		$(element).off("click");
+	}
 
-		var infoRow = $("<div>").addClass("row").attr("id", "infoRow");
-
-		function addInfoColumn(id) {
-			var infoP = $("<p>").attr("id", id);
-			var infoColumn = $("<div>").addClass("col-xs-5");
-
-			myAppend(infoP, infoColumn, infoRow);
-
+	function toggleVisibility(element) {
+		if($(element).css("display") === "none") {
+			$(element).css("display", "block");
+		} else {
+			$(element).css("display", "none");
 		}
-
-		function addAttackBtn() {
-			var attackBtn = $("<button>").attr("id", "attackBtn").text("Attack");
-			var btnCol = $("<div>").addClass("col-xs-2");
-			
-			myAppend(attackBtn, btnCol, infoRow, playArea);
-
-			addAttackListener();
-		}
-
-		function addAttackListener() {
-			$("#attackBtn").click( function() {
-				attackBtnClicked();
-			});
-		}
-
-
-		addInfoColumn("attackInfo");
-		addAttackBtn();
-		addInfoColumn("counterInfo");
 	}
 
 	// run through attack and counter attack
@@ -366,8 +370,8 @@ function init() {
 		var defender = $(".currentDefender");
 
 		// get name of current attacker/defender
-		var attackerName = $(attacker).attr("name");
-		var defenderName = $(defender).attr("name");
+		var attackerName = String($(attacker).attr("name"));
+		var defenderName = String($(defender).attr("name"));
 
 		// when the attack button is clicked, 
 		function attackDefender() {
@@ -382,7 +386,7 @@ function init() {
 			$("p", defender).text(defenderHP);
 
 			// if the attack drops defenders hp to zero or lower
-			if(defenderHP <= 0) {
+			if(parseInt(defenderHP) <= 0) {
 				// display defender defeated
 				updateAttackInfo(true);
 				// remove defender from play area, and prompt user to choose a new defender
@@ -400,8 +404,8 @@ function init() {
 
 		function counterAttack() {
 			// get defender's counter attack and attacker's hit points
-			var defenderCAtk = $(defender).attr("catk");
-			var attackerHP = $(attacker).attr("hp");
+			var defenderCAtk = parseInt($(defender).attr("catk"));
+			var attackerHP = parseInt($(attacker).attr("hp"));
 
 			// decrement character HP by counter attack
 			attackerHP -= defenderCAtk;
@@ -411,9 +415,11 @@ function init() {
 			$("p", attacker).text(attackerHP)
 
 			// if current character's hp is zero or lower, the game is lost
-			if(attackerHP <= 0) {
+			if(parseInt(attackerHP) <= 0) {
 				// display attacker defeated
 				updateCounterInfo(true);
+				removeClickListener("#attackBtn");
+				toggleVisibility("#attackBtn");
 				// show game over
 				lostGame();
 			} else {
@@ -425,6 +431,9 @@ function init() {
 		function defenderDefeated() {
 			// remove defender from play area
 			$(defender).remove();
+
+			removeClickListener("#attackBtn");
+			toggleVisibility("#attackBtn");
 
 			// get number of remaining defenders
 			currentDefenders = $(".defender");
@@ -442,6 +451,7 @@ function init() {
 
 			if(defeated) {
 				var infoText = `${attackerName} has defeated ${defenderName}!`;
+				$("#counterInfo").text("");
 			} else {
 				var infoText = `${attackerName} attacks ${defenderName} for ${curr.adjAttack} damage!`;
 			}
@@ -466,17 +476,13 @@ function init() {
 
 		attackDefender();
 
-		console.log(curr);
-		
-
+		return;
 		// if no defenders remain, then the player wins	
 	}
 
 	// display lost game prompt
 	function lostGame() {
-		// remove objects from play area
-		$(playArea).html("")
-
+		
 		function promptLostGame() {
 			if(curr.side === "rebel") {
 				var lostText = "The Empire has destroyed you!"
@@ -486,8 +492,11 @@ function init() {
 
 			var lostHeader = $("<h1>").text(lostText).addClass("gameOver gameHeader")
 
-			$(playArea).append(lostHeader);
+			$(playRow).append(lostHeader);
 		}
+
+		// remove objects from play area
+		$(playRow).html("")
 
 		promptLostGame();
 
@@ -497,7 +506,7 @@ function init() {
 	// display won game prompt
 	function wonGame() {
 		// remove objects from play area
-		$(playArea).html("")
+		$(playRow).html("")
 
 		function promptWonGame() {
 			if(curr.side === "rebel") {
@@ -508,7 +517,7 @@ function init() {
 
 			var wonHeader = $("<h1>").text(wonText).addClass("gameOver gameHeader")
 
-			$(playArea).append(wonHeader);
+			$(playRow).append(wonHeader);
 		}
 
 		promptWonGame();
@@ -523,7 +532,7 @@ function init() {
 		var resetBtn = $("<div>").addClass("gameHeader").attr("id", "resetBtn");
 		var resetCol = $("<div>").addClass("col-xs-12");
 
-		myAppend(resetHeader, resetBtn, resetCol, playArea);
+		myAppend(resetHeader, resetBtn, resetCol, playRow);
 
 		function addClickListener() {
 			$("#resetBtn").click( function() {
