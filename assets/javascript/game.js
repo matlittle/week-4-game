@@ -15,18 +15,18 @@ function init() {
 	}
 
 	// rebel characters
-	var obiWan = new Player(100, 8, 20, "obi", "Obi-Wan Kenobi", "rebel", "obi_wan.jpg");
-	var luke = new Player(120, 10, 25, "luke", "Luke Skywalker" ,"rebel", "luke.png");
-	var hanSolo = new Player(80, 14, 30, "han", "Han Solo", "rebel", "han_solo.jpg");
-	var yoda = new Player(160, 6, 15, "yoda", "Yoda", "rebel", "yoda.jpg");
+	var obiWan = new Player(100, 8, 15, "obi", "Obi-Wan Kenobi", "rebel", "obi_wan.jpg");
+	var luke = new Player(120, 10, 20, "luke", "Luke Skywalker" ,"rebel", "luke.png");
+	var hanSolo = new Player(80, 14, 25, "han", "Han Solo", "rebel", "han_solo.jpg");
+	var yoda = new Player(160, 6, 10, "yoda", "Yoda", "rebel", "yoda.jpg");
 
 	var rebelChars = [obiWan, luke, hanSolo, yoda];
 
 	// empire characters
-	var vader = new Player(100, 8, 20, "vader", "Darth Vader", "empire", "vader.jpg");
-	var sidious = new Player(120, 10, 25, "sidious", "Darth Sidious", "empire", "sidious.png");
-	var bobaFett = new Player(80, 14, 30, "boba", "Boba Fett", "empire", "boba_fett.jpg");
-	var rancor = new Player(160, 6, 15, "rancor", "Rancor", "empire", "rancor.jpg");
+	var vader = new Player(100, 8, 15, "vader", "Darth Vader", "empire", "vader.jpg");
+	var sidious = new Player(120, 10, 20, "sidious", "Darth Sidious", "empire", "sidious.png");
+	var bobaFett = new Player(80, 14, 25, "boba", "Boba Fett", "empire", "boba_fett.jpg");
+	var rancor = new Player(160, 6, 10, "rancor", "Rancor", "empire", "rancor.jpg");
 
 	var empireChars = [vader, sidious, bobaFett, rancor];
 
@@ -438,7 +438,10 @@ function init() {
 			// get number of remaining defenders
 			currentDefenders = $(".defender");
 
-			if(currentDefenders === undefined){
+			console.log(currentDefenders);
+			console.log(currentDefenders.length);
+
+			if(currentDefenders.length <= 0){
 				// if no defenders remain you won
 				wonGame();
 			} else {
