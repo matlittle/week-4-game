@@ -6,7 +6,6 @@ body {
 	background-image: url("../images/background.jpg");
 	background-size: cover;
 	background-attachment: fixed;
-	background-repeat: none;
 	background-position: center center; 
 }
 
@@ -89,6 +88,7 @@ body {
     border: none;
     outline: none;
     color: white;
+    text-shadow: -1px 0 1px black, 0 1px 1px black, 1px 0 1px black, 0 -1px 1px black;
 }
 
 #attackInfo, #counterInfo {
@@ -124,9 +124,9 @@ body {
 
 
 /* MAIN GAME AREA */
-#content {
+/*#content {
 	min-width: 1000px;
-}
+}*/
 
 .gameHeader, #defPrompt {
 	text-align: center;
@@ -152,9 +152,3 @@ body {
 }
 
 
-/* BACKGROUND MIN SIZE*/
-@media (max-width: 1000px) {
-    .bg {
-        background-size: 1000px 600px;
-    }
-}
