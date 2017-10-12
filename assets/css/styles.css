@@ -7,7 +7,7 @@ body {
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: none;
-	background-position: center center;
+	background-position: center center; 
 }
 
 #sideHdr, #characterHdr {
@@ -74,7 +74,7 @@ body {
 
 /* INFO ROW */
 #infoRow {
-	height: 10%;
+	height: 15%;
 	min-height: 100px;
 }
 
@@ -101,30 +101,31 @@ body {
 	text-shadow: -1px 0 1px #00ccff, 0 1px 1px #00ccff, 1px 0 1px #00ccff, 0 -1px 1px #00ccff;
 }
 	
-
 #counterInfo {
 	text-shadow: -1px 0 1px red, 0 1px 1px red, 1px 0 1px red, 0 -1px 1px red;
+}
+
+
+/* ATTACKER/DEFENDER ROW */
+#attackerRow {
+	height: 25%;
+	min-height: 210px;
+}
+
+#playRow {
+	height: 25%;
+	min-height: 150px;
+}
+
+#defenderRow {
+	height: 25%;
+	min-height: 200px;
 }
 
 
 /* MAIN GAME AREA */
 #content {
 	min-width: 1000px;
-}
-
-#attackerRow {
-	height: 20%;
-	min-height: 210px;
-}
-
-#playRow {
-	height: 20%;
-	min-height: 150px;
-}
-
-#defenderRow {
-	height: 20%;
-	min-height: 200px;
 }
 
 .gameHeader, #defPrompt {
@@ -139,8 +140,6 @@ body {
 }
 
 
-
-
 /* GAME OVER PROMPT */
 .gameOver {
 	font-size: 4em;
@@ -150,4 +149,12 @@ body {
 #resetBtn {
 	display: block;
 	margin: auto;
+}
+
+
+/* BACKGROUND MIN SIZE*/
+@media (max-width: 1000px) {
+    .bg {
+        background-size: 1000px 600px;
+    }
 }
